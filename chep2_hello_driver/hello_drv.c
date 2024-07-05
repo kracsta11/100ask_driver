@@ -91,6 +91,7 @@ static int __HelloOpen(struct inode *pnode, struct file *pfile)
 static ssize_t  __HelloRead(struct file *pfile, char __user * cbuf, size_t size, loff_t *poffset)
 {
     printk("%s %s: line%d.\n", __FILE__, __FUNCTION__, __LINE__);
+    printk("this is a test\n");
     copy_to_user(cbuf, _G_ckbuf, MIN(BUF_SIZE, size));
     return MIN(BUF_SIZE, size);
 }
