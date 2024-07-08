@@ -5,16 +5,16 @@
 #include <stdio.h>
 #include <string.h>
 
-#define  HELLO_DEV  "/dev/hello"
+#define  HELLO_DEV  "/dev/my_led"
 int main(int argc, char **argv)
 {
     int  fd;
-    char str[1024];
+    char status;
     int  length;
     /*
     * 参数判断
     */
-    if(argc != 2 && argc != 3){
+    if( argc != 3){
         printf("error num of args!\r\n");
         return -1;
     }
@@ -22,7 +22,7 @@ int main(int argc, char **argv)
     /*
     * 打开文件
     */
-    fd = open(HELLO_DEV, O_RDWR);
+    fd = open(argv[1], O_RDWR);
     if(fd == -1){
         printf("open dev error!\r\n");
         return -1;
@@ -31,17 +31,12 @@ int main(int argc, char **argv)
     /*
     * 开始读写
     */
-    if((0 == strcmp(argv[1], "-w")) && argc == 3){
-        length = strlen(argv[2]) + 1;
-        length = length < 1024 ? length : 1024;
-        write(fd, argv[2], length);
+    if((0 == strcmp(argv[2], "on"))){
+        status = 1;
+        write(fd, &status, 1);
     }else{
-        length = read(fd, str, 1024);
-        if(!(length > 0)){
-            printf("APP read error\n");
-        }		
-		str[1023] = '\0';
-		printf("APP read : %s\n", str);
+        status = 0;
+        write(fd, &status, 1);
     }
 
     close(fd);

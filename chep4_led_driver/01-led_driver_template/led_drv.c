@@ -46,6 +46,7 @@ static int      __LedClose(struct inode *pnode, struct file *pfile);
  * 定义主设备号
  */
  static int _G_imajor = 0;
+ PLED_OPR p_ledopr;
  /*
  * 定义file_ops结构体
  */
@@ -59,7 +60,6 @@ static int      __LedClose(struct inode *pnode, struct file *pfile);
 /*
  * 定义驱动数据缓存区
  */
- static char _G_ckbuf[BUF_SIZE];
 /*
  * 定义一个类
  */
@@ -76,7 +76,9 @@ static struct class *_G_pled_class;
 *********************************************************************************************************/
 static int __LedOpen(struct inode *pnode, struct file *pfile)
 {
+    int minor = iminor(pnode);
     printk("%s %s: line%d.\n", __FILE__, __FUNCTION__, __LINE__);
+    p_ledopr->init(minor);
     return 0;
 }
 /*********************************************************************************************************
@@ -94,7 +96,6 @@ static ssize_t  __LedRead(struct file *pfile, char __user * cbuf, size_t size, l
 {
     int iErr;
     printk("%s %s: line%d.\n", __FILE__, __FUNCTION__, __LINE__);
-    return MIN(BUF_SIZE, size);
 }
 /*********************************************************************************************************
 ** 函数名称: __LedWrite
@@ -111,10 +112,12 @@ static ssize_t  __LedWrite(struct file *pfile, const char __user *cbuf, size_t s
 {
     int iErr;
     char cStatus;
+    struct inode *pnode = file_read(pfile);
+    int iminor = iminor(pnode);
     iErr = copy_from_user(&cStatus, cbuf, 1);
     
     /* 根据次设备号和status控制led */
-
+    p_ledopr->ctl(iminor, cStatus);
     return 1;
 }
 /*********************************************************************************************************
@@ -157,7 +160,9 @@ int ledInit(void)
     for(i = 0; i < LED_NUM; i++){
         device_create(_G_pled_class, NULL, MKDEV(_G_imajor, i), NULL, "my_led%d", i);
     }
-    
+
+    p_ledopr = get_board_led_opr();
+
     return 0;
 }
 
