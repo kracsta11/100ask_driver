@@ -1,1 +1,0 @@
-cmd_/home/book/100ask_driver/chep4_led_driver/00-test/built-in.o :=  rm -f /home/book/100ask_driver/chep4_led_driver/00-test/built-in.o; arm-buildroot-linux-gnueabihf-ar rcsD /home/book/100ask_driver/chep4_led_driver/00-test/built-in.o

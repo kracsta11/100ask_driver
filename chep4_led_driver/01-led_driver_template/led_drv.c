@@ -94,8 +94,8 @@ static int __LedOpen(struct inode *pnode, struct file *pfile)
 *********************************************************************************************************/
 static ssize_t  __LedRead(struct file *pfile, char __user * cbuf, size_t size, loff_t *poffset)
 {
-    int iErr;
     printk("%s %s: line%d.\n", __FILE__, __FUNCTION__, __LINE__);
+    return 0;
 }
 /*********************************************************************************************************
 ** 函数名称: __LedWrite

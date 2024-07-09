@@ -34,9 +34,11 @@ int main(int argc, char **argv)
     if((0 == strcmp(argv[2], "on"))){
         status = 1;
         write(fd, &status, 1);
+        printf("led on!\r\n");
     }else{
         status = 0;
         write(fd, &status, 1);
+        printf("led off!\r\n");
     }
 
     close(fd);
