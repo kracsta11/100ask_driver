@@ -1,0 +1,1 @@
+cmd_/home/book/100ask_driver/chep2_hello_driver/hello_drv.ko := arm-buildroot-linux-gnueabihf-ld -EL -r  -T ./scripts/module-common.lds --build-id  -o /home/book/100ask_driver/chep2_hello_driver/hello_drv.ko /home/book/100ask_driver/chep2_hello_driver/hello_drv.o /home/book/100ask_driver/chep2_hello_driver/hello_drv.mod.o ;  true

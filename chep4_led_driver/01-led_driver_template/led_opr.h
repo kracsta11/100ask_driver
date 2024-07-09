@@ -8,6 +8,6 @@ typedef struct led_operations {
 
 typedef LED_OPR *PLED_OPR;
 
-PLED_OPR get_board_led_opr(void);
-
+// PLED_OPR get_board_led_opr(void);
+struct led_operations *get_board_led_opr(void);
 #endif 

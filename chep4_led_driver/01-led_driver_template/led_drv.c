@@ -112,8 +112,8 @@ static ssize_t  __LedWrite(struct file *pfile, const char __user *cbuf, size_t s
 {
     int iErr;
     char cStatus;
-    struct inode *pnode = file_read(pfile);
-    int iminor = iminor(pnode);
+    struct inode *pnode = file_inode(pfile);
+    int minor = iminor(pnode);
     iErr = copy_from_user(&cStatus, cbuf, 1);
     
     /* 根据次设备号和status控制led */
@@ -179,7 +179,7 @@ void ledExit(void)
 {
     int i;
     printk("%s %s: line%d.\n", __FILE__, __FUNCTION__, __LINE__);
-    fir(i = 0; i < LED_NUM; i++){
+    for(i = 0; i < LED_NUM; i++){
         device_destroy(_G_pled_class, MKDEV(_G_imajor, i));
     }
     class_destroy(_G_pled_class);
