@@ -110,12 +110,12 @@ static ssize_t  __LedRead(struct file *pfile, char __user * cbuf, size_t size, l
 *********************************************************************************************************/
 static ssize_t  __LedWrite(struct file *pfile, const char __user *cbuf, size_t size, loff_t *poffset)
 {
+    printk("%s %s: line%d.\n", __FILE__, __FUNCTION__, __LINE__);
     int iErr;
     char cStatus;
     struct inode *pnode = file_inode(pfile);
     int minor = iminor(pnode);
     iErr = copy_from_user(&cStatus, cbuf, 1);
-    
     /* 根据次设备号和status控制led */
     p_ledopr->ctl(iminor, cStatus);
     return 1;
@@ -146,6 +146,7 @@ static int      __LedClose(struct inode *pnode, struct file *pfile)
 *********************************************************************************************************/
 int ledInit(void)
 {
+    
     int iErr;
     int i;
     printk("%s %s: line%d.\n", __FILE__, __FUNCTION__, __LINE__);

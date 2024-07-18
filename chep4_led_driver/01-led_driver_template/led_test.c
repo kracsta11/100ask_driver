@@ -10,7 +10,6 @@ int main(int argc, char **argv)
 {
     int  fd;
     char status;
-    int  length;
     /*
     * 参数判断
     */
